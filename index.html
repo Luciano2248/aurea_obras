@@ -451,6 +451,7 @@
     }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     .form-group.full { grid-column: 1 / -1; }
+    .ubicacion-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
     label {
       font-size: 0.65rem; font-weight: 600;
@@ -650,7 +651,6 @@
     <ul class="nav-links">
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#galeria">Proyectos</a></li>
       <li><a href="#presupuesto">Contacto</a></li>
     </ul>
     <a class="nav-cta" href="#presupuesto">Pedir presupuesto</a>
@@ -854,6 +854,20 @@
           </select>
         </div>
         <div class="form-group full">
+          <label>Ubicación</label>
+          <div class="ubicacion-split">
+            <select id="ciudad">
+              <option value="">Ciudad...</option>
+              <option value="Tandil">Tandil</option>
+              <option value="Azul">Azul</option>
+              <option value="Olavarría">Olavarría</option>
+              <option value="Balcarce">Balcarce</option>
+              <option value="Otra">Otra</option>
+            </select>
+            <input type="text" id="barrio" placeholder="Barrio / Zona" />
+          </div>
+        </div>
+        <div class="form-group full">
           <label for="tipo">Tipo de trabajo</label>
           <select id="tipo">
             <option value="">Seleccionar...</option>
@@ -923,6 +937,8 @@
       const nombre   = document.getElementById('nombre').value.trim();
       const telefono = document.getElementById('telefono').value.trim();
       const servicio = document.getElementById('servicio').value;
+      const ciudad   = document.getElementById('ciudad').value;
+      const barrio   = document.getElementById('barrio').value.trim();
       const tipo     = document.getElementById('tipo').value;
       const detalle  = document.getElementById('detalle').value.trim();
 
@@ -935,6 +951,7 @@
       msg += `*Nombre:* ${nombre}\n`;
       if (telefono) msg += `*Telefono:* ${telefono}\n`;
       msg += `*Servicio:* ${servicio}\n`;
+      if (ciudad) msg += `*Ciudad:* ${ciudad}${barrio ? ` — ${barrio}` : ''}\n`;
       if (tipo) msg += `*Tipo de trabajo:* ${tipo}\n`;
       if (detalle) msg += `*Detalle:* ${detalle}`;
 
