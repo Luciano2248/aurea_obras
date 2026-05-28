@@ -451,7 +451,21 @@
     }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     .form-group.full { grid-column: 1 / -1; }
-    .ubicacion-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .ubicacion-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); }
+    .ubicacion-toggle input[type="radio"] { display: none; }
+    .ubicacion-toggle label {
+      display: flex; align-items: center; justify-content: center;
+      padding: 0.85rem 1rem;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border: none;
+    }
+    .ubicacion-toggle label:first-of-type { border-right: 1px solid var(--line); }
+    .ubicacion-toggle input[type="radio"]:checked + label {
+      background: var(--accent); color: #fff;
+    }
 
     label {
       font-size: 0.65rem; font-weight: 600;
@@ -855,16 +869,11 @@
         </div>
         <div class="form-group full">
           <label>Ubicación</label>
-          <div class="ubicacion-split">
-            <select id="ciudad">
-              <option value="">Ciudad...</option>
-              <option value="Tandil">Tandil</option>
-              <option value="Azul">Azul</option>
-              <option value="Olavarría">Olavarría</option>
-              <option value="Balcarce">Balcarce</option>
-              <option value="Otra">Otra</option>
-            </select>
-            <input type="text" id="barrio" placeholder="Barrio / Zona" />
+          <div class="ubicacion-toggle">
+            <input type="radio" name="ubicacion" id="ubicacion-ciudad" value="Ciudad" />
+            <label for="ubicacion-ciudad">Ciudad</label>
+            <input type="radio" name="ubicacion" id="ubicacion-campo" value="Campo" />
+            <label for="ubicacion-campo">Campo</label>
           </div>
         </div>
         <div class="form-group full">
@@ -937,8 +946,8 @@
       const nombre   = document.getElementById('nombre').value.trim();
       const telefono = document.getElementById('telefono').value.trim();
       const servicio = document.getElementById('servicio').value;
-      const ciudad   = document.getElementById('ciudad').value;
-      const barrio   = document.getElementById('barrio').value.trim();
+      const ubicacionEl = document.querySelector('input[name="ubicacion"]:checked');
+      const ciudad   = ubicacionEl ? ubicacionEl.value : '';
       const tipo     = document.getElementById('tipo').value;
       const detalle  = document.getElementById('detalle').value.trim();
 
@@ -951,7 +960,7 @@
       msg += `*Nombre:* ${nombre}\n`;
       if (telefono) msg += `*Telefono:* ${telefono}\n`;
       msg += `*Servicio:* ${servicio}\n`;
-      if (ciudad) msg += `*Ciudad:* ${ciudad}${barrio ? ` — ${barrio}` : ''}\n`;
+      if (ciudad) msg += `*Ubicación:* ${ciudad}\n`;
       if (tipo) msg += `*Tipo de trabajo:* ${tipo}\n`;
       if (detalle) msg += `*Detalle:* ${detalle}`;
 
